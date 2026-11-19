@@ -63,20 +63,22 @@ _INN_11 = (7, 2, 4, 10, 3, 5, 9, 4, 6, 8)
 _INN_12 = (3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8)
 
 
-def gen_inn(rng: random.Random, length: int = 10) -> str:
+def gen_inn(rng: random.Random, length: int = 10, *, noisy: bool = False) -> str:
     region = f"{rng.randint(1, 99):02d}{rng.randint(1, 99):02d}"
     if length == 10:
         body = [int(c) for c in region] + [rng.randint(0, 9) for _ in range(5)]
         c10 = sum(d * c for d, c in zip(body, _INN_10)) % 11 % 10
-        return "".join(str(d) for d in body + [c10])
+        raw = "".join(str(d) for d in body + [c10])
+        return f"{raw[:4]} {raw[4:]}" if noisy else raw
     body = [int(c) for c in region] + [rng.randint(0, 9) for _ in range(6)]
     c11 = sum(d * c for d, c in zip(body, _INN_11)) % 11 % 10
     body11 = body + [c11]
     c12 = sum(d * c for d, c in zip(body11, _INN_12)) % 11 % 10
-    return "".join(str(d) for d in body11 + [c12])
+    raw = "".join(str(d) for d in body11 + [c12])
+    return f"{raw[:4]} {raw[4:]}" if noisy else raw
 
 
-def gen_bank_card(rng: random.Random) -> str:
+def gen_bank_card(rng: random.Random, *, noisy: bool = False) -> str:
     prefix = rng.choice(["4276", "4084", "5469", "5536", "2200", "2202"])
     body = [int(c) for c in prefix] + [rng.randint(0, 9) for _ in range(11)]
     total = 0
@@ -87,46 +89,63 @@ def gen_bank_card(rng: random.Random) -> str:
                 digit -= 9
         total += digit
     check = (10 - (total % 10)) % 10
-    return "".join(str(d) for d in body + [check])
+    raw = "".join(str(d) for d in body + [check])
+    if noisy:
+        # Нестандартная группировка цифр, встречающаяся при ручном вводе
+        return f"{raw[:4]} {raw[4:8]} {raw[8:]}"
+    return raw
 
 
-def gen_ogrnip(rng: random.Random) -> str:
+def gen_ogrnip(rng: random.Random, *, noisy: bool = False) -> str:
     year = f"{rng.randint(15, 25):02d}"
     region = f"{rng.randint(1, 92):02d}"
     serial = f"{rng.randint(100000000, 999999999):09d}"
     first_14 = f"3{year}{region}{serial}"
     check = (int(first_14) % 13) % 10
-    return f"{first_14}{check}"
+    raw = f"{first_14}{check}"
+    if noisy:
+        return f"{raw[:1]}-{raw[1:3]}-{raw[3:5]}-{raw[5:14]}-{raw[14:]}"
+    return raw
 
 
-def gen_passport(rng: random.Random) -> str:
+def gen_passport(rng: random.Random, *, noisy: bool = False) -> str:
     reg = f"{rng.randint(1, 92):02d}"
     yr = f"{rng.randint(10, 24):02d}"
     num = f"{rng.randint(100000, 999999):06d}"
+    if noisy:
+        return f"{reg}-{yr} {num}"
     if rng.random() < 0.5:
         return f"{reg} {yr} {num}"
     return f"{reg}{yr} {num}"
 
 
-def gen_birth_cert(rng: random.Random) -> str:
+def gen_birth_cert(rng: random.Random, *, noisy: bool = False) -> str:
     roman = rng.choice(ROMAN_SERIES)
     letters = rng.choice(CYR_SERIES)
     num = f"{rng.randint(100000, 999999):06d}"
+    if noisy:
+        return f"{roman}-{letters}{num}"
     return f"{roman}-{letters} {num}"
 
 
-def gen_kladr(rng: random.Random) -> str:
+def gen_kladr(rng: random.Random, *, noisy: bool = False) -> str:
     region = f"{rng.randint(1, 92):02d}"
     district = f"{rng.randint(0, 45):03d}"
     city = f"{rng.randint(1, 50):03d}"
     settlement = f"{rng.randint(0, 30):03d}"
+    if noisy:
+        # Иерархическая запись с пробелами между блоками СС РРР ГГГ ППП АА
+        return f"{region} {district} {city} {settlement} 00"
     if rng.random() < 0.5:
         return f"{region}{district}{city}{settlement}00"
     street = f"{rng.randint(1, 999):04d}"
     return f"{region}{district}{city}{settlement}{street}00"
 
 
-def gen_ip(rng: random.Random) -> str:
+def gen_ip(rng: random.Random, *, noisy: bool = False) -> str:
+    if noisy:
+        # Сокращённая запись IPv6 с двойным двоеточием (::)
+        return f"2001:db8:{rng.randint(10, 999):x}::{rng.randint(1, 254):x}"
     choice = rng.random()
     if choice < 0.35:
         return f"192.168.{rng.randint(1, 254)}.{rng.randint(2, 254)}"
@@ -135,9 +154,12 @@ def gen_ip(rng: random.Random) -> str:
     return f"{rng.randint(31, 191)}.{rng.randint(1, 250)}.{rng.randint(1, 250)}.{rng.randint(2, 254)}"
 
 
-def gen_email(rng: random.Random, idx: int) -> str:
+def gen_email(rng: random.Random, idx: int, *, noisy: bool = False) -> str:
     prefixes = ["user", "client", "office", "contact", "admin", "manager", "partner", "support"]
     local = f"{rng.choice(prefixes)}{idx}_{rng.randint(10, 99)}"
+    if noisy:
+        # Кириллический IDN-домен (.рф)
+        return f"{local}@почта.рф"
     return f"{local}@{rng.choice(DOMAINS)}"
 
 
@@ -298,20 +320,31 @@ def generate_datasets() -> None:
     kp_dataset = []
 
     for i, (base_text, base_spans) in enumerate(fact_snippets):
-        inn = gen_inn(rng, 12 if i % 2 == 0 else 10)
-        passport = gen_passport(rng)
-        card = gen_bank_card(rng)
-        ogrnip = gen_ogrnip(rng)
-        ip = gen_ip(rng)
-        email = gen_email(rng, i)
-        birth_cert = gen_birth_cert(rng)
-        kladr = gen_kladr(rng)
+        # В ~5-7% документов моделируем нестандартное оформление реквизитов из реальной практики
+        inn = gen_inn(rng, 12 if i % 2 == 0 else 10, noisy=(i % 23 == 5))
+        passport = gen_passport(rng, noisy=(i % 19 == 4))
+        card = gen_bank_card(rng, noisy=(i % 29 == 6))
+        ogrnip = gen_ogrnip(rng, noisy=(i % 21 == 7))
+        ip = gen_ip(rng, noisy=(i % 27 == 8))
+        email = gen_email(rng, i, noisy=(i % 25 == 9))
+        birth_cert = gen_birth_cert(rng, noisy=(i % 22 == 10))
+        kladr = gen_kladr(rng, noisy=(i % 26 == 12))
+
+        # Реалистичные «ловушки» (hard negatives класса O): версии ПО и номера заказов
+        hard_neg = ""
+        if i % 20 == 3:
+            hard_neg = f" Выгрузка выполнена в системе версии {rng.randint(1, 4)}.{rng.randint(0, 9)}.{rng.randint(1, 25)}.{rng.randint(10, 199)}."
+        elif i % 20 == 11:
+            # Битый 10-значный ИНН с опечаткой в последней контрольной цифре (класс O)
+            bad_inn = gen_inn(rng, 10)
+            bad_last = str((int(bad_inn[-1]) + 1) % 10)
+            hard_neg = f" Черновой номер заявки {bad_inn[:-1]}{bad_last} не прошёл сверку."
 
         if i % 2 == 0:
             addon = (
                 f" В карточке субъекта указаны паспорт {passport}, свидетельство о рождении "
                 f"{birth_cert}, ИНН {inn}, ОГРНИП {ogrnip}, код КЛАДР {kladr}, "
-                f"почта {email}, сетевой узел {ip} и карта {card}."
+                f"почта {email}, сетевой узел {ip} и карта {card}.{hard_neg}"
             )
             addon_pairs = [
                 ("PASSPORT", passport),
@@ -326,7 +359,7 @@ def generate_datasets() -> None:
         else:
             addon = (
                 f" По данным реестра реквизиты включают паспорт {passport}, ИНН {inn}, "
-                f"ОГРНИП {ogrnip}, свидетельство о рождении {birth_cert} и e-mail {email}."
+                f"ОГРНИП {ogrnip}, свидетельство о рождении {birth_cert} и e-mail {email}.{hard_neg}"
             )
             addon_pairs = [
                 ("PASSPORT", passport),
@@ -350,21 +383,25 @@ def generate_datasets() -> None:
         idx = len(fact_snippets) + j
         surname = rng.choice(SURNAMES_M)
         name = rng.choice(NAMES_M)
-        inn = gen_inn(rng, 12 if j % 2 == 0 else 10)
-        passport = gen_passport(rng)
-        card = gen_bank_card(rng)
-        ogrnip = gen_ogrnip(rng)
-        ip = gen_ip(rng)
-        email = gen_email(rng, idx)
-        birth_cert = gen_birth_cert(rng)
-        kladr = gen_kladr(rng)
+        inn = gen_inn(rng, 12 if j % 2 == 0 else 10, noisy=(j % 18 == 3))
+        passport = gen_passport(rng, noisy=(j % 17 == 5))
+        card = gen_bank_card(rng, noisy=(j % 19 == 7))
+        ogrnip = gen_ogrnip(rng, noisy=(j % 20 == 9))
+        ip = gen_ip(rng, noisy=(j % 16 == 11))
+        email = gen_email(rng, idx, noisy=(j % 21 == 13))
+        birth_cert = gen_birth_cert(rng, noisy=(j % 18 == 15))
+        kladr = gen_kladr(rng, noisy=(j % 17 == 14))
+
+        hard_neg = ""
+        if j % 15 == 2:
+            hard_neg = f" Используется клиент версии {rng.randint(2, 5)}.{rng.randint(1, 9)}.{rng.randint(0, 30)}.{rng.randint(1, 200)}."
 
         if j % 2 == 0:
             text = (
                 f"По данным реестра предприниматель {surname} {name} "
                 f"(паспорт {passport}, свидетельство о рождении {birth_cert}, ИНН {inn}, "
                 f"ОГРНИП {ogrnip}) зарегистрирован по коду КЛАДР {kladr}, "
-                f"использует почту {email}, IP-адрес {ip} и карту {card}."
+                f"использует почту {email}, IP-адрес {ip} и карту {card}.{hard_neg}"
             )
             pairs = [
                 ("SURNAME", surname),
@@ -383,7 +420,7 @@ def generate_datasets() -> None:
                 f"Оператор {surname} {name} подтвердил операцию по карте {card} "
                 f"для клиента с ИНН {inn}, ОГРНИП {ogrnip} и кодом КЛАДР {kladr}; "
                 f"уведомление направлено на {email} с адреса {ip} после сверки паспорта {passport} "
-                f"и акта {birth_cert}."
+                f"и акта {birth_cert}.{hard_neg}"
             )
             pairs = [
                 ("SURNAME", surname),
