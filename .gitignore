@@ -1,0 +1,20 @@
+# Виртуальные окружения и кэш Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Полный собранный файл весов (>100 МБ для GitHub);
+# в репозитории хранятся части model.safetensors.part*, которые
+# автоматически склеиваются при первом запуске recognizer.py
+model/rubert_pii_ner/model.safetensors
+model/checkpoints/
+
+# Вспомогательные черновики и резервные копии
+~$*.docx
+Otchet_KR_Skotnikov_KM1_backup.docx
+Otchet_KR_Skotnikov.pdf
+build_reports.py
+tz.txt
+Задание на КР.docx

@@ -1,0 +1,311 @@
+{
+  "dataset_file": "data/test_variant24.jsonl",
+  "num_documents": 150,
+  "total_tokens": 5995,
+  "pii_tokens_total": 1784,
+  "per_attribute_token": {
+    "SURNAME": {
+      "tp": 177,
+      "fp": 3,
+      "fn": 3,
+      "support": 180,
+      "precision": 0.9833,
+      "recall": 0.9833,
+      "f1": 0.9833
+    },
+    "NAME": {
+      "tp": 153,
+      "fp": 2,
+      "fn": 4,
+      "support": 157,
+      "precision": 0.9871,
+      "recall": 0.9745,
+      "f1": 0.9808
+    },
+    "INN": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "PASSPORT": {
+      "tp": 382,
+      "fp": 0,
+      "fn": 0,
+      "support": 382,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "BANK_CARD": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "OGRNIP": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "IP": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "EMAIL": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "BIRTH_CERT": {
+      "tp": 300,
+      "fp": 0,
+      "fn": 0,
+      "support": 300,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "KLADR": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "per_attribute_entity": {
+    "SURNAME": {
+      "tp": 177,
+      "fp": 3,
+      "fn": 3,
+      "support": 180,
+      "precision": 0.9833,
+      "recall": 0.9833,
+      "f1": 0.9833,
+      "instances": 180
+    },
+    "NAME": {
+      "tp": 153,
+      "fp": 2,
+      "fn": 4,
+      "support": 157,
+      "precision": 0.9871,
+      "recall": 0.9745,
+      "f1": 0.9808,
+      "instances": 157
+    },
+    "INN": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 150
+    },
+    "PASSPORT": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 150
+    },
+    "BANK_CARD": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 105
+    },
+    "OGRNIP": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 150
+    },
+    "IP": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 105
+    },
+    "EMAIL": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 150
+    },
+    "BIRTH_CERT": {
+      "tp": 150,
+      "fp": 0,
+      "fn": 0,
+      "support": 150,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 150
+    },
+    "KLADR": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "support": 105,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "instances": 105
+    }
+  },
+  "per_file_entity": {
+    "SURNAME": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "NAME": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "INN": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "PASSPORT": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "BANK_CARD": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "OGRNIP": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "IP": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "EMAIL": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "BIRTH_CERT": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "KLADR": {
+      "tp": 60,
+      "fp": 0,
+      "fn": 0,
+      "support": 60,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "class_O_token": {
+    "tp": 4211,
+    "fp": 2,
+    "fn": 0,
+    "support": 4211,
+    "precision": 0.9995,
+    "recall": 1.0,
+    "f1": 0.9998
+  },
+  "summary": {
+    "macro_precision": 0.997,
+    "macro_recall": 0.9958,
+    "macro_f1": 0.9964,
+    "weighted_precision": 0.9972,
+    "weighted_recall": 0.9961,
+    "weighted_f1": 0.9966,
+    "macro_f1_with_O": 0.9967,
+    "weighted_f1_with_O": 0.9989
+  }
+}
