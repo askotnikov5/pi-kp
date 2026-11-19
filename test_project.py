@@ -625,6 +625,19 @@ class TestContextDisambiguation(unittest.TestCase):
         parses_f = [p for p in MORPH.parse(first_f) if "Name" in p.tag.grammemes]
         self.assertTrue(any(p.tag.gender == "femn" for p in parses_f), res_f)
 
+        # Два разных человека с именем Саша в одном сложносочинённом предложении
+        compound = "Саша подписал договор, а Саша подписала акт."
+        res_c = A.anon(compound, [["NAME", 0, 4], ["NAME", 25, 29]])
+        words_c = res_c.split()
+        self.assertTrue(
+            any(p.tag.gender == "masc" for p in MORPH.parse(words_c[0]) if "Name" in p.tag.grammemes),
+            res_c,
+        )
+        self.assertTrue(
+            any(p.tag.gender == "femn" for p in MORPH.parse(words_c[4]) if "Name" in p.tag.grammemes),
+            res_c,
+        )
+
     def test_unisex_name_with_surname(self):
         text_m = "Саша Иванов"
         res_m = A.anon(text_m, [["NAME", 0, 4], ["SURNAME", 5, 11]])

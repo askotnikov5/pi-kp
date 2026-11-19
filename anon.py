@@ -661,9 +661,9 @@ def _infer_context_hints(
     start = group[0].start
     end = group[-1].end
 
-    # Берём локальный фрагмент внутри текущего предложения
-    left_slice = re.split(r"[.!?;:\n]", text[max(0, start - 90):start])[-1]
-    right_slice = re.split(r"[.!?;:\n]", text[end:min(len(text), end + 90)])[0]
+    # Берём локальный фрагмент внутри текущей клаузы (останавливаемся на знаках препинания)
+    left_slice = re.split(r"[.,!?;:\n]", text[max(0, start - 90):start])[-1]
+    right_slice = re.split(r"[.,!?;:\n]", text[end:min(len(text), end + 90)])[0]
 
     def _non_fio_words(chunk: str, base_offset: int) -> list[str]:
         words: list[str] = []
